@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+<html>
+
+<head>
+    {% block title %}Products{% endblock %}
+</head>
+<body>
+    {% block content %}
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+
+
+    
+    <h1>Product List</h1>
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Upload CSV file here:</label>
+            <form action="{% url 'upload_csv' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input class="form-control" type="file" name="csv_file" id="formFile">
+                <input type="submit" value="Upload" class="btn btn-success">
+            </form>
+        </div>
+
+
+    <form action="{% url 'download_csv' 'active' %}" method="get">                        
+        <input type="submit" value="Download" class="btn btn-success">
+    </form>
+    
+    </div>
+
+    <hr>
+    {% if Product %}
+    <table class="table table-dark table-striped" style="border-collapse: collapse; width: 60%;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Is Deleted</th>
+                <th>Date Created</th>
+                <th>Created By</th>
+                <th>Date Updated</th>
+                <th>Updated By</th>
+                <!-- <th>Deleted By</th> -->
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for prod in Product %}
+            <tr>
+                <td>{{prod.id}}</td>
+                <td>{{prod.name}}</td>
+                <td>{{prod.description}}</td>
+                <td>{{prod.price}}</td>
+                <td>{{prod.qty}}</td>
+                <td>{{prod.is_deleted}}</td>
+                <td>{{prod.created_at}}</td>
+                <td>{{prod.created_by}}</td>
+                <td>{{prod.updated_at}}</td>
+                <td>{{prod.updated_by}}</td>
+                <!-- <td>{{prod.deleted_by}}</td> -->
+
+                <td style="border: 1px solid black; padding: 8px;">
+                <a href="{% url 'update_prod' prod.id %}" class="btn btn-secondary">View/Edit</a>
+
+                    <form action="{% url 'soft_delete' prod.id %}" method="post">                          
+                        <input type="submit" value="Soft delete" class="btn btn-danger">
+
+                </form> 
+                
+                </td> 
+
+            </tr>
+            {% endfor %}
+        <tbody>
+
+    </table>
+
+    {% else %}
+    No Record Found
+    {% endif %}
+{% endblock %}
+</body>
+
+</html>
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>products List</title>
+</head>
+<body>
+    <h1>Welcome, Users</h1>
+    <ul>
+        {% for prod in Product %}     
+           why Product {P capital}  
+        <li>{{ prod }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>  -->

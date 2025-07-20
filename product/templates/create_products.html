@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+<html>
+
+<head>
+    {% block title %}Create Product{% endblock %}
+</head>
+<body>
+    {% block content %}
+    <h1>Create Product</h1>
+    <form method="post" action="{% url 'create_products' %}" class="row g-3 needs-validation">
+    {% csrf_token %}
+
+    {% if product %}
+    <div class="col-md-2">
+
+      ID: <input type="number" class="form-control" name="prod_id" value="{{product.id}}" readonly>
+    </div>
+    {% endif %}
+
+    <div class="col-md-5">
+      Name: <input type="text" class="form-control" name="nm" value="{{product.name}}" required>
+    </div>
+    <div class="col-md-5">
+      Description: <input type="text" class="form-control" name="desc" value="{{product.description}}" required>
+    </div>
+    
+    <div class="col-md-5">
+    Price: <input type="number" class="form-control" name="prc" value="{{product.price}}"
+        required>
+    </div>
+
+    
+
+    <div class="col-md-5">
+      
+      Quantity: <input type="number" class="form-control" name="qty" value="{{product.qty}}"
+        required>
+
+    </div class="col-12">
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+  </form>
+
+
+    {% endblock %}
+</body>
+
+</html>
